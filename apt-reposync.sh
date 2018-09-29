@@ -95,3 +95,4 @@ set_repo_var || exit 1
 make_list_of_packages
 download_packages
 install_downloaded_packages
+remove_pkg_duplicates
