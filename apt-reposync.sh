@@ -10,8 +10,8 @@ system_arch="$(apt-config dump | grep 'APT::Architecture' | tr -d '"";' | awk '{
 
 check_root(){
 	if [ "$(id -u)" != "0" ]; then
-		echo_err "Скрипт нужно запустить от root!"
-		echo_err "Run this script as root!"
+		echo "Скрипт нужно запустить от root!"
+		echo "Run this script as root!"
 		exit 1
 	fi
 }
