@@ -1,8 +1,12 @@
 #!/bin/sh
+# License: GPLv3
+# Author: mikhailnov
+# This is a quick & dirty script to help sycnronize local packages and downgrade them to the versions from the main ALT's repository
+# e.g. to rollback partial uncessfull upgrade from p8 to Sisyphus
 
 dir0="$(pwd)"
 date="$(date +%s)"
-rm -fv /var/cache/apt/archives/*
+rm -fv /var/cache/apt/archives/* 2>/dev/null
 diff_pkg_list="/tmp/diff_pkg_${date}.list"
 tmp_dir="/tmp/downloaded_packages_${date}"
 touch "$diff_pkg_list" || ( echo "Error creating temp file {$diff_pkg_list}"; exit 1 )
@@ -70,6 +74,20 @@ install_downloaded_packages(){
 	cd "$tmp_dir"
 	apt-get install ./*.rpm || rpm -i --nodeps --force ./*.rpm
 	set +x
+	apt-get -f install
+}
+
+remove_pkg_duplicates(){
+	duplicates_list="$(rpm -qa --qf "%{NAME}\n" | sort | uniq -c | grep -v ' 1 ' | awk '{print $NF}')"
+	for i in $duplicates_list
+	do
+		for rpm in $(rpm -qa --qf "%{NAME},%{VERSION},%{RELEASE}\n" | grep "^${i}," | sort -t ',' -nk2 | sort -t ',' -nk3 | tail -n +2 | sed -e 's/,/-/g')
+		do
+			set -x
+			rpm -e --justdb --nodeps "$rpm"
+			set +x
+		done
+	done
 }
 
 check_root
