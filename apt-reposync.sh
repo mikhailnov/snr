@@ -38,7 +38,7 @@ make_list_of_packages(){
 		apt_show="$(env LANG=c apt-cache show "$pkg")"
 		installed_version="$(echo "$apt_cache_policy" | grep '\*\*\*' | awk '{print $2}')"
 		#target_version="$(echo "$apt_cache_policy" | grep 'Candidate:' | awk -F 'Candidate: ' '{print $NF}')"
-		target_version="$(echo "$apt_cache_policy" | grep "$branch" -B1 | head -n 1 | awk -F '*** ' '{print $3}')"
+		target_version="$(echo "$apt_cache_policy" | grep "$branch" -B1 | head -n 1 | sed -e 's/\*\*\* //g' | awk '{print $1}')"
 		pkg_arch="$(echo "$apt_show" | grep '^Architecture' | awk -F 'Architecture: ' '{print $NF}' | sort | uniq | head -n 1)"
 		echo "Installed version: ${installed_version}, Target version: ${target_version}"
 		if [ ! "$installed_version" = "$target_version" ]; then
