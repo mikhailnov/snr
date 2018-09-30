@@ -72,7 +72,7 @@ install_downloaded_packages(){
 	echo "Temporary directory with downloaded packages is: ${tmp_dir}"
 	set -x
 	cd "$tmp_dir"
-	apt-get install ./*.rpm || rpm -i --nodeps --force ./*.rpm
+	apt-get install ./*.rpm || ( find . -type f -name "*.rpm" | xargs rpm -i --nodeps --force )
 	set +x
 	#apt-get -f install
 }
