@@ -84,7 +84,7 @@ remove_pkg_duplicates(){
 		for rpm in $(rpm -qa --qf "%{NAME},%{VERSION},%{RELEASE}\n" | grep "^${i}," | sort -t ',' -nk2 | sort -t ',' -nk3 | tail -n +2 | sed -e 's/,/-/g')
 		do
 			set -x
-			rpm -e --justdb --nodeps "$rpm"
+			rpm -e --justdb --nodeps --allmatches "$rpm"
 			set +x
 		done
 	done
