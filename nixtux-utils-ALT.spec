@@ -7,7 +7,6 @@ License: GPL
 Url: https://gitlab.com/mikhailnov/nixtux-utils
 BuildArch: noarch
 Source0: %name-%version.tar
-Requires: apt-reposync wr
 Packager: Mikhail Novosyolov <mikhailnov@altlinux.org>
 
 %description
