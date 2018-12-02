@@ -2,7 +2,9 @@
 # wr - which repo
 
 pi_alt(){
-	lynx -dump "https://packages.altlinux.org/en/Sisyphus/srpms/${1}" | grep 'ALT Linux repositories' -A150 | grep 'Source RPM:' -B150 | grep -E '\[*\]' | awk -F ']' '{print $NF}'
+	lynx -dump "http://geyser.altlinux.org/en/Sisyphus/srpms/${1}" | grep -E 'ALT Linux repositories|ALT repositories' -A150 | grep 'SRPMs in branches' -A150 | \
+	grep -v 'hide window' | grep -i 'Source RPM:' -B150
+	#| grep -E '\[*\]' | awk -F ']' '{print $NF}'
 }
 
 case "$1" in
