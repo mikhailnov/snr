@@ -3,7 +3,7 @@
 
 pi_alt(){
 	lynx -dump "http://geyser.altlinux.org/en/Sisyphus/srpms/${1}" | grep -E 'ALT Linux repositories|ALT repositories' -A150 | grep 'SRPMs in branches' -A150 | \
-	grep -v 'hide window' | grep -i 'Source RPM:' -B150
+	grep -v 'hide window' | grep -i 'Source RPM:' -B150 | sed -e "s/   //g" #| tr -d '[]'
 	#| grep -E '\[*\]' | awk -F ']' '{print $NF}'
 }
 
