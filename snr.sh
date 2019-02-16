@@ -12,9 +12,27 @@ if [ "$(id -u)" != "0" ]
 	fi
 fi
 
-for i in "/mnt/dev" "/tmp/.X11-unix"
+# http://ludiclinux.com/Nspawn-Steam-Container/
+for i in \
+	"/mnt/dev" \
+	"/dev/dri" \
+	"/dev/shm" \
+	"/dev/snd" \
+	"/dev/nvidia0" \
+	"/dev/nvidiactl" \
+	"/dev/nvidia-modeset" \
+	"/run/user/${UID}/pulse"
 do
-	bind_options="${bind_options} --bind=${i}"
+	if [ -r "$i" ]; then
+		bind_options="${bind_options} --bind=${i}"
+	fi
+done
+
+for i in "/tmp/.X11-unix"
+do
+	if [ -r "$i" ]; then
+		bind_options="${bind_options} --bind-ro=${i}"
+	fi
 done
 
 case "$1" in
