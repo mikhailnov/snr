@@ -6,16 +6,20 @@
 # from https://github.com/bigbluebutton/bigbluebutton/pull/6284
 if [ "$(id -u)" != "0" ]
 	then if [ -x "$(which sudo)" ]
-		then SUDO="$(which sudo)"
+		then CMD="$(which sudo) systemd-nspawn"
 		else echo "snr must be ran as root!" && exit 1
 	fi
 fi
 
-for i in "/mnt/dev" "/tmp/.X11-unix" "/media/3TB_Toshiba_BTRFS/files/tmp/rpmbuild/"
+for i in "/mnt/dev" "/tmp/.X11-unix"
 do
 	bind_options="${bind_options} --bind=${i}"
 done
 
+case "$1" in
+	* ) TARGET="$1"; shift; OTHER=" $@";;
+esac
+
 set -x
 xhost +local:
-"$SUDO" systemd-nspawn --setenv=DISPLAY="${DISPLAY}" ${bind_options} -D /mnt/${1} 
+$CMD --setenv=DISPLAY="${DISPLAY}" ${bind_options} -D "/mnt/${TARGET}" ${OTHER}
