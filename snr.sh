@@ -3,6 +3,7 @@
 # Author: mikhailnov
 # License: GPLv3
 
+CMD="systemd-nspawn"
 # from https://github.com/bigbluebutton/bigbluebutton/pull/6284
 if [ "$(id -u)" != "0" ]
 	then if [ -x "$(which sudo)" ]
