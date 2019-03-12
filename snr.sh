@@ -41,4 +41,9 @@ esac
 
 set -x
 xhost +local:
-$CMD --setenv=DISPLAY="${DISPLAY}" ${bind_options} -D "/mnt/${TARGET}" ${OTHER}
+$CMD \
+	--setenv=DISPLAY="${DISPLAY}" \
+	--setenv=LC_ALL="${LANG}" \
+	${bind_options} \
+	-D "/mnt/${TARGET}" \
+	${OTHER}
