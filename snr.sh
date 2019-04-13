@@ -4,6 +4,8 @@
 # License: GPLv3
 
 CMD="systemd-nspawn"
+DIR="${DIR:-/var/lib/machines}"
+
 # from https://github.com/bigbluebutton/bigbluebutton/pull/6284
 if [ "$(id -u)" != "0" ]
 	then if [ -x "$(which sudo)" ]
@@ -45,5 +47,5 @@ $CMD \
 	--setenv=DISPLAY="${DISPLAY}" \
 	--setenv=LC_ALL="${LANG}" \
 	${bind_options} \
-	-D "/mnt/${TARGET}" \
+	-D "${DIR}/${TARGET}" \
 	${OTHER}
