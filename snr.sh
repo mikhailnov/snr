@@ -5,6 +5,8 @@
 
 CMD="systemd-nspawn"
 DIR="${DIR:-/var/lib/machines}"
+# NW - network
+NW="${NW:-1}"
 
 # from https://github.com/bigbluebutton/bigbluebutton/pull/6284
 if [ "$(id -u)" != "0" ]
@@ -40,6 +42,17 @@ done
 case "$1" in
 	* ) TARGET="$1"; shift; OTHER=" $@";;
 esac
+
+virtual_network(){
+	# virbr0 is a virtual bridge from livbirt with DHCP,
+	# we can attach our containers to the same network as libvirt VMs and LXC containers.
+	BRIDGE="$(ip a | grep ': virbr' | awk -F ': ' '{print $2}' | grep -v '\-' | sort -u | head -n 1)"
+	if [ -n "$BRIDGE" ]; then
+		OTHER="${OTHER} --network-bridge=${BRIDGE}"
+	fi
+}
+
+if [ "$NW" != 0 ]; then virtual_network; fi
 
 set -x
 xhost +local:
