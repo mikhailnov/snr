@@ -54,6 +54,11 @@ virtual_network(){
 
 if [ "$NW" != 0 ]; then virtual_network; fi
 
+# automatically set 32 bit CPU arch for containers with 32 bit OS
+if readelf -h "${DIR}/${TARGET}/bin/sh" | grep -q ' ELF32$'; then
+	OTHER="${OTHER} --personality=x86"
+fi
+
 set -x
 xhost +local:
 $CMD \
