@@ -6,8 +6,9 @@ Url: https://github.com/mikhailnov/snr
 Version: 1.1
 Release: alt1
 Source0: %name-%version.tar
-Requires: systemd-container
+BuildArch: noarch
 BuildRequires: md2man
+Requires: systemd-container
 
 %description
 Simple wrapper to quickly run systemd-nspawn containers with support to:
