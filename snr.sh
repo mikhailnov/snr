@@ -101,7 +101,7 @@ esac
 virtual_network(){
 	# virbr0 is a virtual bridge from livbirt with DHCP,
 	# we can attach our containers to the same network as libvirt VMs and LXC containers.
-	BRIDGE="$(ip a | grep ': virbr' | awk -F ': ' '{print $2}' | grep -v '\-' | sort -u | head -n 1)"
+	BRIDGE="${BRIDGE:-$(ip a | grep ': virbr' | awk -F ': ' '{print $2}' | grep -v '\-' | sort -u | head -n 1)}"
 	if [ -n "$BRIDGE" ]; then
 		OTHER="${OTHER} --network-bridge=${BRIDGE}"
 	fi
