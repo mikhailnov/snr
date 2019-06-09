@@ -8,6 +8,7 @@ CMD_NSPAWN="systemd-nspawn"
 CMD_READELF="readelf"
 CMD_TEST="test"
 DIR="${DIR:-/var/lib/machines}"
+X11_SOCKET_DIR="${X11_SOCKET_DIR:-/tmp/.X11-unix}"
 # NW - network
 NW="${NW:-1}"
 
@@ -43,9 +44,9 @@ do
 	fi
 done
 
-for i in "/tmp/.X11-unix"
+for i in "$X11_SOCKET_DIR"
 do
-	if [ -r "$i" ]; then
+	if $CMD_TEST -r "$i"; then
 		bind_options="${bind_options} --bind-ro=${i}"
 	fi
 done
