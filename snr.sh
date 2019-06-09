@@ -1,7 +1,8 @@
 #!/bin/sh
-# Simple and ugly wrapper to quickly run systemd-nspawn containers
-# Author: mikhailnov
-# License: GPLv3
+# Simple wrapper to quickly run systemd-nspawn containers
+# (If you want to use it for other caontainers, not systemd-nspawn, please make a pull request)
+# Author: Mikhail Novosyolov <m.novosyolov@rosalinux.ru>
+# License: MIT
 
 CMD_NSPAWN="systemd-nspawn"
 CMD_READELF="readelf"
