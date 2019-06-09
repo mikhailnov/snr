@@ -48,7 +48,6 @@ EOF
 
 # http://ludiclinux.com/Nspawn-Steam-Container/
 for i in \
-	"/mnt/dev" \
 	"/dev/dri" \
 	"/dev/shm" \
 	"/dev/snd" \

@@ -23,6 +23,7 @@ Run specific application, including graphical ones (`geany` as an example):
 * `snr rosa-2016.1 -q geany`
 * `snr rosa-2016.1 --bind=/tmp/rosa -q geany`
 * `snr rosa-2016.1 -q "sudo -u user geany"`
+* `snr rosa-2016.1 -q urpmi gedit`
 
 where `rosa-2016.1` is a directory inside `/var/lib/machines` or inside the current directory.
 
