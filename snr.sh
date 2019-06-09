@@ -5,6 +5,7 @@
 
 CMD_NSPAWN="systemd-nspawn"
 CMD_READELF="readelf"
+CMD_TEST="test"
 DIR="${DIR:-/var/lib/machines}"
 # NW - network
 NW="${NW:-1}"
@@ -15,6 +16,7 @@ if [ "$(id -u)" != "0" ]
 		then
 			CMD_NSPAWN="$(command -v sudo) systemd-nspawn"
 			CMD_READELF="$(command -v sudo) readelf"
+			CMD_TEST="$(command -v sudo) test"
 		else echo "snr must be ran as root!" && exit 1
 	fi
 fi
@@ -43,12 +45,12 @@ do
 done
 
 mk_target(){
-	if [ -d "${PWD}/$1" ]; then
+	if $CMD_TEST -d "${PWD}/$1"; then
 		TARGET="${PWD}/$1"
 		return
 	fi
 
-	if [ -d "${DIR}/$1" ]; then
+	if $CMD_TEST -d "${DIR}/$1"; then
 		TARGET="${DIR}/$1"
 		return
 	fi
