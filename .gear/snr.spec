@@ -12,7 +12,9 @@ Requires: systemd-container
 Simple wrapper to quickly run systemd-nspawn containers with support to:
 - run graphical applications inside container
 - have full access to videocard
-- have working sound input and output.
+- have working sound input and output
+- bind to network bridge
+- specify any other options for systemd-nspawn
 
 %prep
 %setup -q
@@ -24,6 +26,7 @@ Simple wrapper to quickly run systemd-nspawn containers with support to:
 %makeinstall_std
 
 %files
+%doc README.md
 %_bindir/snr
 %config(noreplace) %_sysconfdir/snr.conf
 
