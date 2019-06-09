@@ -7,6 +7,7 @@ Version: 1.1
 Release: alt1
 Source0: %name-%version.tar
 Requires: systemd-container
+BuildRequires: md2man
 
 %description
 Simple wrapper to quickly run systemd-nspawn containers with support to:
@@ -28,6 +29,7 @@ Simple wrapper to quickly run systemd-nspawn containers with support to:
 %files
 %doc README.md
 %_bindir/snr
+%_man1dir/snr.1*
 %config(noreplace) %_sysconfdir/snr.conf
 
 

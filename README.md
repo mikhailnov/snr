@@ -12,6 +12,8 @@ Simple wrapper to quickly run systemd-nspawn containers with support to:
 
 ## Usage examples
 
+Some usage examples:
+
 * `snr rosa-2016.1`
 * `snr rosa-2016.1 -b`
 * `NW=0 rosa-2016.1 -b`
