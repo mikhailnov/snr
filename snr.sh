@@ -9,6 +9,7 @@ CMD_READELF="readelf"
 CMD_TEST="test"
 DIR="${DIR:-/var/lib/machines}"
 X11_SOCKET_DIR="${X11_SOCKET_DIR:-/tmp/.X11-unix}"
+PULSE_SERVER_TARGET="${PULSE_SERVER_TARGET-/tmp/snr_PULSE_SERVER}"
 # NW - network
 NW="${NW:-1}"
 
@@ -28,6 +29,19 @@ if [ "$(id -u)" != "0" ]
 	fi
 fi
 
+env_setup(){
+# In some cases like using sudo initially exported variables may be lost,
+# so let's reexport them on each shell init
+	env_file_local="$(mktemp)"
+	cat > "$env_file_local" <<EOF
+export DISPLAY="$DISPLAY"
+export LC_ALL="$LANG"
+export PULSE_SERVER="$PULSE_SERVER_TARGET"
+EOF
+	bind_options="${bind_options} --bind=${env_file_local}:/etc/profile.d/90-snr-tmp.sh"
+}
+trap "rm -f $env_file_local" EXIT
+
 # http://ludiclinux.com/Nspawn-Steam-Container/
 for i in \
 	"/mnt/dev" \
@@ -36,8 +50,7 @@ for i in \
 	"/dev/snd" \
 	"/dev/nvidia0" \
 	"/dev/nvidiactl" \
-	"/dev/nvidia-modeset" \
-	"/run/user/${UID}/pulse"
+	"/dev/nvidia-modeset"
 do
 	if [ -r "$i" ]; then
 		bind_options="${bind_options} --bind=${i}"
@@ -50,6 +63,13 @@ do
 		bind_options="${bind_options} --bind-ro=${i}"
 	fi
 done
+
+PULSE_SERVER_LOCAL="$(env LANG=c pactl info | grep -i 'Server String:' | awk -F ':' '{print $NF}')"
+if [ -n "$PULSE_SERVER_LOCAL" ]; then
+	bind_options="${bind_options} --bind=${PULSE_SERVER_LOCAL}:${PULSE_SERVER_TARGET}"
+fi
+
+env_setup
 
 mk_target(){
 	if $CMD_TEST -d "${PWD}/$1"; then

@@ -9,8 +9,10 @@ Source0: %name-%version.tar
 Requires: systemd-container
 
 %description
-Simple wrapper to quickly run systemd-nspawn containers with support to run
-graphical applications inside container and full access to videocard.
+Simple wrapper to quickly run systemd-nspawn containers with support to:
+- run graphical applications inside container
+- have full access to videocard
+- have working sound input and output.
 
 %prep
 %setup -q
