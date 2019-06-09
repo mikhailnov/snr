@@ -10,18 +10,18 @@ DIR="${DIR:-/var/lib/machines}"
 # NW - network
 NW="${NW:-1}"
 
-# from https://github.com/bigbluebutton/bigbluebutton/pull/6284
+SUDO_CMD="$(command -v sudo)"
 if [ "$(id -u)" != "0" ]
-	then if [ -x "$(command -v sudo)" ]
+	then if [ -x "${SUDO_CMD}" ]
 		then
 			# check ability to use sudo
-			if ! "$(command -v sudo)" echo test 2>&1 >/dev/null; then
+			if ! "${SUDO_CMD}" echo test 2>&1 >/dev/null; then
 				echo "Unable to use sudo, run snr from root or setup sudoers"
 				exit 1
 			fi
-			CMD_NSPAWN="$(command -v sudo) systemd-nspawn"
-			CMD_READELF="$(command -v sudo) readelf"
-			CMD_TEST="$(command -v sudo) test"
+			CMD_NSPAWN="${SUDO_CMD} systemd-nspawn"
+			CMD_READELF="${SUDO_CMD} readelf"
+			CMD_TEST="${SUDO_CMD} test"
 		else echo "snr must be ran as root!" && exit 1
 	fi
 fi
