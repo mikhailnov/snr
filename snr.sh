@@ -1,8 +1,13 @@
 #!/bin/sh
 # Simple wrapper to quickly run systemd-nspawn containers
-# (If you want to use it for other caontainers, not systemd-nspawn, please make a pull request)
+# (If you want to use it for other containers, not systemd-nspawn, please make a pull request)
 # Author: Mikhail Novosyolov <m.novosyolov@rosalinux.ru>
 # License: MIT
+
+for i in "/etc/snr.conf" "${PWD}/snr.conf" 
+do
+	if [ -f "$i" ]; then . "$i"; fi
+done
 
 CMD_NSPAWN="systemd-nspawn"
 CMD_READELF="readelf"

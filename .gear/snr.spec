@@ -25,6 +25,7 @@ Simple wrapper to quickly run systemd-nspawn containers with support to:
 
 %files
 %_bindir/snr
+%config(noreplace) %_sysconfdir/snr.conf
 
 
 %changelog
