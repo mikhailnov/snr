@@ -42,8 +42,27 @@ do
 	fi
 done
 
+mk_target(){
+	if [ -d "${PWD}/$1" ]; then
+		TARGET="${PWD}/$1"
+		return
+	fi
+
+	if [ -d "${DIR}/$1" ]; then
+		TARGET="${DIR}/$1"
+		return
+	fi
+
+	echo "Neither ${PWD}/$1 nor ${DIR}/$1 have been found, cannot find directory with rootfs to run!"
+	exit 1
+}
+
 case "$1" in
-	* ) TARGET="$1"; shift; OTHER=" $@";;
+	* )
+		mk_target "$1"
+		shift
+		OTHER=" $@"
+		;;
 esac
 
 virtual_network(){
@@ -58,7 +77,7 @@ virtual_network(){
 if [ "$NW" != 0 ]; then virtual_network; fi
 
 # automatically set 32 bit CPU arch for containers with 32 bit OS
-if $CMD_READELF -h "${DIR}/${TARGET}/bin/sh" | grep -q ' ELF32$'; then
+if $CMD_READELF -h "${TARGET}/bin/sh" | grep -q ' ELF32$'; then
 	OTHER="${OTHER} --personality=x86"
 fi
 
@@ -68,5 +87,5 @@ $CMD_NSPAWN \
 	--setenv=DISPLAY="${DISPLAY}" \
 	--setenv=LC_ALL="${LANG}" \
 	${bind_options} \
-	-D "${DIR}/${TARGET}" \
+	-D "${TARGET}" \
 	${OTHER}
