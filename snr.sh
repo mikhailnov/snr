@@ -83,7 +83,15 @@ virtual_network(){
 	fi
 }
 
-if [ "$NW" != 0 ]; then virtual_network; fi
+if [ "$NW" != 0 ]; then
+	if ! echo " $OTHER " | grep -qE ' -b | --boot ' && [ "$NW" != 2 ]
+		# If we are not booting the container, than network managing services won't start
+		# and won't setup network, so don't bind to a network bridge, otherwise network will not work;
+		# but NW=2 may be used to force always setting up the network.
+		then :
+		else virtual_network
+	fi
+fi
 
 # automatically set 32 bit CPU arch for containers with 32 bit OS
 if $CMD_READELF -h "${TARGET}/bin/sh" | grep -q ' ELF32$'; then
