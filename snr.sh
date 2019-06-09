@@ -10,8 +10,8 @@ NW="${NW:-1}"
 
 # from https://github.com/bigbluebutton/bigbluebutton/pull/6284
 if [ "$(id -u)" != "0" ]
-	then if [ -x "$(which sudo)" ]
-		then CMD="$(which sudo) systemd-nspawn"
+	then if [ -x "$(command -v sudo)" ]
+		then CMD="$(command -v sudo) systemd-nspawn"
 		else echo "snr must be ran as root!" && exit 1
 	fi
 fi
