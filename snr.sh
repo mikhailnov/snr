@@ -23,6 +23,19 @@ echo_help(){
 		echo "See https://github.com/mikhailnov/snr for documentation"
 }
 
+case "$1" in
+	-h | --help )
+		echo_help
+		exit
+	;;
+	* )
+		if [ -z "$1" ]; then echo_help; exit; fi
+		TARGET="$1"
+		shift
+		OTHER=" $@"
+	;;
+esac
+
 SUDO_CMD="$(command -v sudo)"
 if [ "$(id -u)" != "0" ]
 	then if [ -x "${SUDO_CMD}" ]
@@ -99,18 +112,7 @@ mk_target(){
 	exit 1
 }
 
-case "$1" in
-	-h | --help )
-		echo_help
-		exit
-	;;
-	* )
-		if [ -z "$1" ]; then echo_help; exit; fi
-		mk_target "$1"
-		shift
-		OTHER=" $@"
-	;;
-esac
+mk_target "$TARGET"
 
 virtual_network(){
 	# virbr0 is a virtual bridge from livbirt with DHCP,
