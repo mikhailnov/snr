@@ -1,8 +1,0 @@
-.directory
-debian/nixtux-utils*
-debian/.debhelper*
-debian/files
-nixtux-utils-build-deps_*.deb
-build-ppa.sh
-!debian/build-ppa.sh
-*.kate-swp
