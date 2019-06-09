@@ -20,6 +20,7 @@ Some usage examples:
 * `NW=0 rosa-2016.1 --bind=/tmp/rosa`
 
 Run specific application, including graphical ones (`geany` as an example):
+
 * `snr rosa-2016.1 -q geany`
 * `snr rosa-2016.1 --bind=/tmp/rosa -q geany`
 * `snr rosa-2016.1 -q "sudo -u user geany"`
@@ -27,5 +28,11 @@ Run specific application, including graphical ones (`geany` as an example):
 
 where `rosa-2016.1` is a directory inside `/var/lib/machines` or inside the current directory.
 
-All options, including `DIR=/var/lib/machines`, can be overriden via envoronmental variables or in `/etc/snr.conf`.
+All options, including `DIR=/var/lib/machines`, can be overriden via environmental variables or in `/etc/snr.conf`.
+
+## Feedback
+
+Report bugs and send feedback to issues at [https://github.com/mikhailnov/snr](https://github.com/mikhailnov/snr).
+
+Feel free to send pull requests or email patches to <m.novosyolov@rosalinux.ru>.
 

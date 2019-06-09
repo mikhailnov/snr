@@ -18,6 +18,11 @@ PULSE_SERVER_TARGET="${PULSE_SERVER_TARGET-/tmp/snr_PULSE_SERVER}"
 # NW - network
 NW="${NW:-1}"
 
+echo_help(){
+	man -P ul snr 2>/dev/null || \
+		echo "See https://github.com/mikhailnov/snr for documentation"
+}
+
 SUDO_CMD="$(command -v sudo)"
 if [ "$(id -u)" != "0" ]
 	then if [ -x "${SUDO_CMD}" ]
@@ -95,11 +100,16 @@ mk_target(){
 }
 
 case "$1" in
+	-h | --help )
+		echo_help
+		exit
+	;;
 	* )
+		if [ -z "$1" ]; then echo_help; exit; fi
 		mk_target "$1"
 		shift
 		OTHER=" $@"
-		;;
+	;;
 esac
 
 virtual_network(){
