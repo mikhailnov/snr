@@ -76,6 +76,11 @@ fi
 env_setup
 
 mk_target(){
+	if [ "$(echo "$1" | head -c 1)" = "/" ] && $CMD_TEST -d "/$1"; then
+		TARGET="/$1"
+		return
+	fi
+
 	if $CMD_TEST -d "${PWD}/$1"; then
 		TARGET="${PWD}/$1"
 		return
