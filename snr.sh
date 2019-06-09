@@ -3,7 +3,8 @@
 # Author: mikhailnov
 # License: GPLv3
 
-CMD="systemd-nspawn"
+CMD_NSPAWN="systemd-nspawn"
+CMD_READELF="readelf"
 DIR="${DIR:-/var/lib/machines}"
 # NW - network
 NW="${NW:-1}"
@@ -11,7 +12,9 @@ NW="${NW:-1}"
 # from https://github.com/bigbluebutton/bigbluebutton/pull/6284
 if [ "$(id -u)" != "0" ]
 	then if [ -x "$(command -v sudo)" ]
-		then CMD="$(command -v sudo) systemd-nspawn"
+		then
+			CMD_NSPAWN="$(command -v sudo) systemd-nspawn"
+			CMD_READELF="$(command -v sudo) readelf"
 		else echo "snr must be ran as root!" && exit 1
 	fi
 fi
@@ -55,13 +58,13 @@ virtual_network(){
 if [ "$NW" != 0 ]; then virtual_network; fi
 
 # automatically set 32 bit CPU arch for containers with 32 bit OS
-if readelf -h "${DIR}/${TARGET}/bin/sh" | grep -q ' ELF32$'; then
+if $CMD_READELF -h "${DIR}/${TARGET}/bin/sh" | grep -q ' ELF32$'; then
 	OTHER="${OTHER} --personality=x86"
 fi
 
 set -x
 xhost +local:
-$CMD \
+$CMD_NSPAWN \
 	--setenv=DISPLAY="${DISPLAY}" \
 	--setenv=LC_ALL="${LANG}" \
 	${bind_options} \
