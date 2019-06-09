@@ -14,6 +14,11 @@ NW="${NW:-1}"
 if [ "$(id -u)" != "0" ]
 	then if [ -x "$(command -v sudo)" ]
 		then
+			# check ability to use sudo
+			if ! "$(command -v sudo)" echo test 2>&1 >/dev/null; then
+				echo "Unable to use sudo, run snr from root or setup sudoers"
+				exit 1
+			fi
 			CMD_NSPAWN="$(command -v sudo) systemd-nspawn"
 			CMD_READELF="$(command -v sudo) readelf"
 			CMD_TEST="$(command -v sudo) test"
