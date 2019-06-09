@@ -19,6 +19,11 @@ Some usage examples:
 * `NW=0 rosa-2016.1 -b`
 * `NW=0 rosa-2016.1 --bind=/tmp/rosa`
 
+Run specific application, including graphical ones (`geany` as an example):
+* `snr rosa-2016.1 -q geany`
+* `snr rosa-2016.1 --bind=/tmp/rosa -q geany`
+* `snr rosa-2016.1 -q "sudo -u user geany"`
+
 where `rosa-2016.1` is a directory inside `/var/lib/machines` or inside the current directory.
 
 All options, including `DIR=/var/lib/machines`, can be overriden via envoronmental variables or in `/etc/snr.conf`.
