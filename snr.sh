@@ -40,7 +40,6 @@ export PULSE_SERVER="$PULSE_SERVER_TARGET"
 EOF
 	bind_options="${bind_options} --bind=${env_file_local}:/etc/profile.d/90-snr-tmp.sh"
 }
-trap "rm -f $env_file_local" EXIT
 
 # http://ludiclinux.com/Nspawn-Steam-Container/
 for i in \
@@ -117,6 +116,8 @@ fi
 if $CMD_READELF -h "${TARGET}/bin/sh" | grep -q ' ELF32$'; then
 	OTHER="${OTHER} --personality=x86"
 fi
+
+trap "rm -f $env_file_local" EXIT
 
 set -x
 xhost +local:
