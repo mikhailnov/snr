@@ -36,6 +36,18 @@ case "$1" in
 	;;
 esac
 
+# Workaround cases when some utilities, e.g. ip, are not in PATH, but still can be used
+# Example: https://bugzilla.rosalinux.ru/show_bug.cgi?id=9918
+PATH0="$PATH"
+for i in '/sbin' '/usr/sbin' '/usr/local/sbin'
+do
+	if ! echo "$PATH0" | sed -e 's,:,\n,g' | grep -q "^${i}\$" \
+		&& [ -d "$i" ] \
+		&& [ -r "$i" ]; then
+			export PATH="${i}:${PATH}"
+	fi
+done
+
 SUDO_CMD="$(command -v sudo)"
 if [ "$(id -u)" != "0" ]
 	then if [ -x "${SUDO_CMD}" ]
