@@ -32,7 +32,7 @@ case "$1" in
 		if [ -z "$1" ]; then echo_help; exit; fi
 		TARGET="$1"
 		shift
-		OTHER=" $@"
+		OTHER=" $@ $other_options"
 	;;
 esac
 
