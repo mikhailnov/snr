@@ -160,7 +160,7 @@ fi
 
 trap "rm -f $env_file_local" EXIT
 
-set -x
+( set -x
 xhost +local:
 $CMD_NSPAWN \
 	--setenv=DISPLAY="${DISPLAY}" \
@@ -168,3 +168,4 @@ $CMD_NSPAWN \
 	${bind_options} \
 	-D "${TARGET}" \
 	${OTHER}
+)
