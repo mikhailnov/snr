@@ -9,6 +9,7 @@ Source0: %name-%version.tar
 BuildArch: noarch
 BuildRequires: md2man
 Requires: systemd-container
+Requires: iproute2
 
 %description
 Simple wrapper to quickly run systemd-nspawn containers with support to:
