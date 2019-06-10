@@ -104,20 +104,27 @@ fi
 
 env_setup
 
+verify_target(){
+	if ! $CMD_TEST -x "$1/bin/sh"; then
+		echo "$1 does not look like an OS tree, because $1/bin/sh was not found or is not executable"
+		return 1
+	fi
+}
+
 mk_target(){
 	if [ "$(echo "$1" | head -c 1)" = "/" ] && $CMD_TEST -d "/$1"; then
 		TARGET="/$1"
-		return
+		verify_target "$TARGET" && return
 	fi
 
 	if $CMD_TEST -d "${PWD}/$1"; then
 		TARGET="${PWD}/$1"
-		return
+		verify_target "$TARGET" && return
 	fi
 
 	if $CMD_TEST -d "${DIR}/$1"; then
 		TARGET="${DIR}/$1"
-		return
+		verify_target "$TARGET" && return
 	fi
 
 	echo "Neither ${PWD}/$1 nor ${DIR}/$1 have been found, cannot find directory with rootfs to run!"
@@ -125,6 +132,7 @@ mk_target(){
 }
 
 mk_target "$TARGET"
+echo "Using OS tree in ${TARGET}"
 
 virtual_network(){
 	# virbr0 is a virtual bridge from livbirt with DHCP,
