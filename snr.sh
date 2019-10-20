@@ -75,6 +75,8 @@ env_setup(){
 export DISPLAY="$DISPLAY"
 export LC_ALL="$LANG"
 export PULSE_SERVER="$PULSE_SERVER_TARGET"
+# Fix Qt4 GUIs ("invalid Pixmap or Window parameter")
+export QT_X11_NO_MITSHM=1
 EOF
 	bind_options="${bind_options} --bind=${env_file_local}:/etc/profile.d/90-snr-tmp.sh"
 }
@@ -167,6 +169,7 @@ trap "rm -f $env_file_local" EXIT
 xhost +local:
 $CMD_NSPAWN \
 	--setenv=DISPLAY="${DISPLAY}" \
+	--setenv=QT_X11_NO_MITSHM=1 \
 	--setenv=LC_ALL="${LANG}" \
 	${bind_options} \
 	-D "${TARGET}" \
