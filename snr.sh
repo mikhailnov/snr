@@ -102,7 +102,7 @@ do
 	fi
 done
 
-PULSE_SERVER_LOCAL="$(env LANG=c pactl info | grep -i 'Server String:' | awk -F ':' '{print $NF}')"
+PULSE_SERVER_LOCAL="$(LC_ALL=C pactl info | grep -i '^Server String:' | awk -F ': ' '{print $NF}')"
 if [ -n "$PULSE_SERVER_LOCAL" ]; then
 	bind_options="${bind_options} --bind=${PULSE_SERVER_LOCAL}:${PULSE_SERVER_TARGET}"
 fi
