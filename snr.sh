@@ -103,7 +103,7 @@ do
 done
 
 PULSE_SERVER_LOCAL="$(LC_ALL=C pactl info | grep -i '^Server String:' | awk -F ':' '{print $NF}')"
-if [ -n "$PULSE_SERVER_LOCAL" ]; then
+if [ -n "$PULSE_SERVER_LOCAL" ] && [ -e "$PULSE_SERVER_LOCAL" ]; then
 	bind_options="${bind_options} --bind=${PULSE_SERVER_LOCAL}:${PULSE_SERVER_TARGET}"
 fi
 
