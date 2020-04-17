@@ -34,6 +34,9 @@ export PULSE_SERVER="$PULSE_SERVER_TARGET"
 # Fix Qt4 GUIs ("invalid Pixmap or Window parameter")
 export QT_X11_NO_MITSHM=1
 EOF
+	# By default it is 0600 and not readable by users with different UID from inside container
+	# in many cases, e.g. inside ALT Linux, it must be executable
+	chmod 0755 "$env_file_local"
 	bind_options="${bind_options} --bind=${env_file_local}:/etc/profile.d/90-snr-tmp.sh"
 }
 
