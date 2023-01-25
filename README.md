@@ -62,4 +62,4 @@ All options can be set in `/etc/snr.conf` or `$PWD/snr.conf` or defined as envir
 
 Report bugs and send feedback to issues at [https://github.com/mikhailnov/snr](https://github.com/mikhailnov/snr).
 
-Feel free to send pull requests or email patches to <mikhailnov@nixtux.ru>.
+Feel free to send pull requests or email patches to <m@mikhailnov.ru>.
